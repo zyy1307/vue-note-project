@@ -1,0 +1,38 @@
+$maincolor: salmon;
+$fontcolor:#655757;
+$shadow:#E3E3E3;
+$btncolor:#F78989;
+$btncolor2:#409EFF;
+$mainH:90vh;
+@mixin send {
+    $height: 25px;
+    width: 50px;
+    text-align: center;
+    line-height: $height;
+    border-radius: 4px;
+    background-color: $maincolor;
+    color: #FFF;
+    position: absolute;
+    bottom: 10px;
+    font-size: 12px;
+    right: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+@mixin mainbtn {
+    // 大小颜色
+    width: 100px;
+    $height: 40px;
+    line-height: $height;
+    background: $btncolor;
+    // 文字
+    color: #fff;
+    $font-size: 14px;
+    text-align: center;
+    // 圆角
+    border-radius: 4px;
+    &:hover {
+        opacity: 0.8;
+    }
+}

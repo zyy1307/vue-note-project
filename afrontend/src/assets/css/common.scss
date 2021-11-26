@@ -1,0 +1,37 @@
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button:focus,
+button:active:focus,
+button.active:focus,
+button.focus,
+button:active.focus,
+button.active.focus {
+    outline: none;
+    box-shadow: none;
+}
+
+// routerlink激活状态
+.active {
+    color: salmon;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
