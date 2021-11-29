@@ -32,6 +32,7 @@ import Upload from './upload.vue'
   box-sizing: border-box;
   border-right: 1px solid $maincolor;
   position: relative;
+
   }
   .write{
   height: $mainH;

@@ -6,14 +6,14 @@
     <div class='up'>
     <div class='row'>
       <div class='send chose'><label for="file">选择文件</label></div>
-      <div class='send'>上传文件</div>
+      <div class='send' @click="upFile()">上传文件</div>
     </div>
     <input type="file" id="file" 
-    ref='file' name="file" accept= ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple @change="handleUp($event)">
+     name="file" accept= ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple enctype="multipart/form-data" @change="showFile($event)">
     <!-- change事件监听表单 -->
     </div>
-  <div class="preview" v-html="rawHtml">
-   
+  <div class="preview">
+   <p>{{rawHtml}}</p>
   </div>
   </div>
   </form>
@@ -22,16 +22,32 @@
 </template>
 
 <script>
+// 学习使用axios
+import { handleUp } from '@/api'
 export default {
   name:'',
   data(){
    return {
-     rawHtml: '<p>No files currently selected for upload</p>',
-     fileList:[]
+     rawHtml: 'No files currently selected for upload',
+     fileList:[],
    }
   },
   methods: {
-    handleUp(e){
+    upFile() {
+      //声明一个FormDate对象
+      const formData = new FormData();
+      const file = this.fileList[0];
+      //把文件信息放入对象中:键值对形式
+      formData.append('userfile', file);
+      let headers={
+          // "Content-Type": "multipart/form-data"
+          "Content-Type": "false"
+        };
+      handleUp(formData,headers).then((res)=>{console.log(res);})
+      .catch((err)=>{console.log(err);})
+      }
+    ,
+    showFile(e){
       // 清空原显示内容并显示上传文件名
       const rawFiles = Array.from(e.target.files);
       rawFiles.forEach ((ele)=>{
@@ -49,6 +65,7 @@ input {
 opacity: 0; 
 width: 20px;
 }
+
 .upload-demo{
 position: absolute;
 top: 50%; 
@@ -65,6 +82,8 @@ margin-left: 50px;
 .send {
   @include mainbtn();
   display: inline-block;
+  user-select: none;
+  cursor: pointer;
 }
 // 选择文件按钮
 .chose{
@@ -72,5 +91,6 @@ margin-left: 50px;
   background:$btncolor2;
 }
 }
+
 
 </style>
