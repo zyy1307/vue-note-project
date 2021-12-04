@@ -12,6 +12,7 @@
      name="file" accept= ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple enctype="multipart/form-data" @change="showFile($event)">
     <!-- change事件监听表单 -->
     </div>
+     <div class='dropZone' @drop="dropHandler($event);" @dragover="dragOverHandler($event)">请上传最多一个文件</div>
   <div class="preview">
    <p>{{rawHtml}}</p>
   </div>
@@ -33,6 +34,17 @@ export default {
    }
   },
   methods: {
+    dropHandler(e){
+      e.preventDefault();
+      // If dropped items aren't files, reject them
+        const file = e.dataTransfer.items[0].getAsFile();
+        console.log(file);
+        this.fileList.push(file);
+        this.rawHtml=this.fileList[0].name;
+    },
+    dragOverHandler(e){
+      e.preventDefault();
+    },
     upFile() {
       //声明一个FormDate对象
       const formData = new FormData();
@@ -65,7 +77,11 @@ input {
 opacity: 0; 
 width: 20px;
 }
-
+.dropZone{
+  border: 5px dotted gray;
+  width:  200px;
+  height: 100px;
+}
 .upload-demo{
 position: absolute;
 top: 50%; 

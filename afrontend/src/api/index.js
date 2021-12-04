@@ -21,3 +21,11 @@ export function getQues() {
         timeout: 5000,
     })
 }
+
+export function get(params) {
+    return request({
+        url: '/api/quiz',
+        method: 'get',
+        params,
+    })
+}

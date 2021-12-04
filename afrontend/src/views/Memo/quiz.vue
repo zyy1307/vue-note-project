@@ -1,43 +1,98 @@
 <template>
 <div id='quiz'>
 <div class='question'>
-  <div class='ques' v-if="isShow" @click="showAns">{{question}}</div>
+  <div class='ques' v-if="isShow" @dblclick="this.isShow=false">{{question}}</div>
   <div class='ques' v-else> {{answer}}</div>
 <el-row class='btn'>
- <el-button type="danger" plain>学会了</el-button>
- <el-button type="danger" plain>还不会</el-button>
- <el-button type="danger" plain>删除</el-button>
+ <el-button type="danger" plain @click="known(1)">学会了</el-button>
+ <el-button type="danger" plain @click='del()'>删除</el-button>
+ <el-button type="prime" plain @click="dialogVisible = true">结束答题</el-button>
 </el-row>
 </div>
-<div class="left"><el-button type="danger" icon="el-icon-arrow-left" circle></el-button></div>
-<div class="right"><el-button type="danger" icon="el-icon-arrow-right" circle></el-button></div>
+<el-dialog
+  title="答题结束"
+  :visible.sync="dialogVisible"
+  width="30%">
+  <span>你今天答了5道题</span>
+  <span>学会了5道题</span>
+  <span slot="footer" class="dialog-footer">
+  <el-button type="primary" @click="leave()">确 定</el-button>
+  </span>
+</el-dialog>
+<div class="left" @click="countS()"><el-button type="danger" icon="el-icon-arrow-left" circle></el-button></div>
+<div class="right" @click="countP()"><el-button type="danger" icon="el-icon-arrow-right" circle></el-button></div>
 </div>
 </template>
 
 <script>
-import {getQues}from '@/api'
+import {getQues,get}from '@/api'
 export default {
   name:'quiz',
   data(){
    return {
-     question:'',
-     answer:'',
+     result:[],
+     i:0,
      isShow:true,
+     dialogVisible:false,
    }
   },
   methods:{
-    showAns( ) {
-      console.log('??');
-      if(this.isShow===true){this.isShow=!this.isShow;}
-    },
-  },
-  created(){
-    // 在这里发起请求，又或者是beforecreate？再确定一下
-    getQues().then((res)=>{
-    this.question=res.data.ques,
-    this.answer=res.data.answer
-    })
+    countP() {
+      this.isShow=true;
+      if (this.i<this.result.length-1){this.i++;}
+      },
+    countS() {
+      this.isShow=true;
+      if (this.i>0){this.i--}
+      },
+    known(a) {
+      const obj=this.result[this.i];
+      const id=obj.id;
+      get({know:a,id}).then((res)=>{console.log(res);})
       .catch((err)=>{console.log(err);})
+      getQues().then((res)=>{this.result=res.data;})
+      .catch((err)=>{console.log(err);})
+      this.isShow=true;
+    },
+    del(){
+    const obj=this.result[this.i];
+    const id=obj.id;
+    get({del:1,id}).then((res)=>{console.log(res);})
+      .catch((err)=>{console.log(err);})
+    getQues().then((res)=>{this.result=res.data;})
+      .catch((err)=>{console.log(err);})
+      this.isShow=true;
+    },
+    leave(){
+      this.dialogVisible = false;
+      this.$router.push({path:'/memo'});
+    }
+  },
+  computed:{
+  question(){
+   if(this.result[0]!=undefined){
+    const i=this.i;
+    const obj=this.result[i];
+    return obj.ques;
+   }
+  },
+  answer(){
+    if(this.result[0]!=undefined){
+    const i=this.i;
+    const obj=this.result[i];
+    return obj.answer;
+   }
+  },
+  id(){
+    return this.resulte[this.i].id
+  }
+  },
+ created(){
+    getQues().then((res)=>{
+    // [数组套对象]
+    this.result=res.data;
+    })
+    .catch((err)=>{console.log(err);})
   }
 }
 </script>
@@ -54,7 +109,9 @@ export default {
     width: 100%;
     height: 300px;
     box-sizing: border-box;
-    padding: 30px;   
+    padding: 30px;
+    white-space: pre-wrap;
+    overflow: auto;   
   }
   width: 100%;
   height: 100%;
@@ -81,8 +138,7 @@ export default {
   .btn{
     position: absolute;
     bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 20%;
   }
   }
 }

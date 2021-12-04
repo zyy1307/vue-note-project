@@ -27,6 +27,7 @@ export default {
   background: -webkit-linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
   position: relative;
   .select{
+    user-select: none;
     h1 {
     font-size: 80px;
     white-space: nowrap;

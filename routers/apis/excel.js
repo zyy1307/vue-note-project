@@ -13,6 +13,7 @@ router.use(function(req, res, next) {
         form.uploadDir = path.join(__dirname, '../../upload')
         let filePath
         form.parse(req, function(err, fields, files) {
+            if (err) console.log(err)
             filePath = files.userfile.filepath
                 //解析excel文档
             const sheets = xlsx.parse(filePath)
