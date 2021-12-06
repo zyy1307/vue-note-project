@@ -25,6 +25,9 @@ const moment=require('moment');
           label: '日历计划表',
           to:'/calendar'
         }, {
+          label: 'todolist',
+          to:'/task'
+        }, {
           label: '便签板',
           to:'/note',
           children: [{

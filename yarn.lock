@@ -47,7 +47,7 @@
   "resolved" "https://registry.npmmirror.com/bignumber.js/download/bignumber.js-9.0.0.tgz"
   "version" "9.0.0"
 
-"body-parser@1.19.0":
+"body-parser@^1.19.0", "body-parser@1.19.0":
   "integrity" "sha1-lrJwnlfJxOCab9Zqj9l5hE9p8Io="
   "resolved" "https://registry.npmmirror.com/body-parser/download/body-parser-1.19.0.tgz"
   "version" "1.19.0"

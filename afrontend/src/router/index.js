@@ -9,6 +9,8 @@ const Excel = () =>
     import ('../views/Memo/excel.vue')
 const Calendar = () =>
     import ('../views/Calendar')
+const Task = () =>
+    import ('../views/Task')
 const Note = () =>
     import ('../views/Note')
 
@@ -33,11 +35,15 @@ const routes = [{
             name: 'excel',
             component: Excel,
         },
-
         {
             path: '/calendar',
             name: 'calendar',
             component: Calendar,
+        },
+        {
+            path: '/task',
+            name: 'task',
+            component: Task,
         },
         {
             path: '/note',

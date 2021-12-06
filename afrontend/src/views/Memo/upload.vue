@@ -12,7 +12,7 @@
      name="file" accept= ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple enctype="multipart/form-data" @change="showFile($event)">
     <!-- change事件监听表单 -->
     </div>
-     <div class='dropZone' @drop="dropHandler($event);" @dragover="dragOverHandler($event)">请上传最多一个文件</div>
+     <div class='dropZone' @drop="dropHandler($event);" @dragover="dragOverHandler($event)">请拖拽文件到这里上传(max:1)</div>
   <div class="preview">
    <p>{{rawHtml}}</p>
   </div>
@@ -78,9 +78,13 @@ opacity: 0;
 width: 20px;
 }
 .dropZone{
-  border: 5px dotted gray;
+  border: 2px dashed gray;
+  text-align: center;
   width:  200px;
-  height: 100px;
+  $height: 100px;
+  line-height: $height;
+  margin-left:10px;
+  margin-bottom: 20px;
 }
 .upload-demo{
 position: absolute;

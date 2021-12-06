@@ -4,6 +4,9 @@ $shadow:#E3E3E3;
 $btncolor:#F78989;
 $btncolor2:#409EFF;
 $mainH:90vh;
+$bor:1.5px #F8F8F8 solid;
+$iptback:#F8F8F8;
+$svg:#9B9CA3;
 @mixin send {
     $height: 25px;
     width: 50px;
@@ -35,4 +38,24 @@ $mainH:90vh;
     &:hover {
         opacity: 0.8;
     }
+}
+
+// todolist样式
+@mixin list {
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    border-radius: 4px;
+    &:hover {
+        background: #FEE6E3;
+    }
+}
+
+// 水平垂直居中
+@mixin incenter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

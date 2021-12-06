@@ -10,6 +10,7 @@ const app = express()
 const users = require('./routers/apis/users')
 const excel = require('./routers/apis/excel')
 const quiz = require('./routers/apis/getQue')
+const toList = require('./routers/apis/todolist')
 
 // DB config
 const db = mysql.createConnection({
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', users)
 app.use('/api/excel', excel)
 app.use('/api/quiz', quiz)
+app.use('/api/task', toList)
     //localhost:3000/api/excel/file+大路由+分路由
 
 // 端口号

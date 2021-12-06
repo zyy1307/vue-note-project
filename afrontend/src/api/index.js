@@ -1,4 +1,5 @@
 import request from '@/utils/request.js'
+import store from '@/store'
 
 export function handleUp(file, headers) {
     return request({
@@ -27,5 +28,44 @@ export function get(params) {
         url: '/api/quiz',
         method: 'get',
         params,
+    })
+}
+// 普通默认get
+export function got(url, params) {
+    return request({
+        url,
+        params,
+    })
+}
+
+export function renderList() {
+    const getlist = ['no', 'to', 'la', 'af', 'fi']
+    getlist.forEach((ele) => {
+        got('/api/task', { items: ele })
+            .then((result) => {
+                const data = result.data
+                store.dispatch({
+                    //在其他文件中使用要引入store
+                    type: 'aPlus',
+                    data,
+                    ele,
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    })
+}
+
+export function postList(data) {
+    // 转换成json传输数据
+    data = JSON.stringify(data)
+    return request({
+        url: '/api/task',
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data,
     })
 }
