@@ -3,7 +3,8 @@
 <section class='today'>
   <Colle></Colle>
   <div><ListItem :tit="title[0]" :cate='getList[0]' :val="today"></ListItem></div>
-  <!--<div><LabelList></LabelList></div>-->
+  <div><LabelList>
+    </LabelList></div>
 </section>
 <section class="other">
   <!-- todolist列表,值由父组件给出,之后应该可以直接用v-for写 -->
@@ -19,7 +20,7 @@
 import Colle from './collection.vue'
 import ListItem from './listItem.vue'
 import LabelList from './label.vue'
-import {renderList,got} from '@/api'
+import {renderList} from '@/api'
 export default {
   name:'task',
   components:{Colle,ListItem,LabelList},

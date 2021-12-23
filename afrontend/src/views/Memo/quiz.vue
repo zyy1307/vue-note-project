@@ -1,7 +1,7 @@
 <template>
 <div id='quiz'>
 <div class='question'>
-  <div class='ques' v-if="isShow" @dblclick="this.isShow=false">{{question}}</div>
+  <div class='ques' v-if="isShow" @dblclick="isShow=false">{{question}}</div>
   <div class='ques' v-else> {{answer}}</div>
 <el-row class='btn'>
  <el-button type="danger" plain @click="known(1)">学会了</el-button>
@@ -13,8 +13,7 @@
   title="答题结束"
   :visible.sync="dialogVisible"
   width="30%">
-  <span>你今天答了5道题</span>
-  <span>学会了5道题</span>
+  <span>你共计学会了{{haveKnown}}道题</span>
   <span slot="footer" class="dialog-footer">
   <el-button type="primary" @click="leave()">确 定</el-button>
   </span>
@@ -34,6 +33,7 @@ export default {
      i:0,
      isShow:true,
      dialogVisible:false,
+     haveKnown:0,
    }
   },
   methods:{
@@ -53,6 +53,7 @@ export default {
       getQues().then((res)=>{this.result=res.data;})
       .catch((err)=>{console.log(err);})
       this.isShow=true;
+      this.haveKnown++;
     },
     del(){
     const obj=this.result[this.i];
@@ -90,6 +91,11 @@ export default {
  created(){
     getQues().then((res)=>{
     // [数组套对象]
+    console.log(res.data);
+    if(res.data.length===0){
+      alert('你还没有上传过错题哦');
+      return this.$router.push({path:'/memo'});
+    }
     this.result=res.data;
     })
     .catch((err)=>{console.log(err);})

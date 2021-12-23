@@ -20,6 +20,7 @@ Vue.filter('formatter', function(value) {
     if (value == '') return value
     return (value = moment(value).format('YYYY-MM-DD'))
 })
+
 new Vue({
     router,
     store,

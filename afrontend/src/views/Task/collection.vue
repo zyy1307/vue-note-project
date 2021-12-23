@@ -3,11 +3,11 @@
   <h1>收集箱</h1>
   <div class='bigIpt'>
     <input class='ipt' ref='ipt' type="text" placeholder="+ 添加任务到收集箱，回车即可保存"  @keyup.enter="listPlus" v-model="msg">
-    <div class='time'>{{labelShow}} {{lDate|formatter}}</div>
+    <div class='time'>{{labelShow}} <span v-show='labelShow&&lDate'>|</span> {{lDate|formatter}}</div>
     <!-- 标签菜单 失焦 点击 -->
     <ul tabindex='0' class='hash' v-show="hashShow">
-      <input type="text" placeholder="创建新标签" v-model='lLabel' @keyup.enter="hashShow=!hashShow" @blur="hashShow=!hashShow">
-      <li v-show="lLabel==''" @click="hashShow=!hashShow" v-for='(items,index) in showTag' :key="index">
+      <input type="text" placeholder="创建新标签" v-model='lLabel' ref='labelUl' @keyup.enter="hashShow=!hashShow">
+      <li v-show="lLabel==''" v-for='(items,index) in showTag' :key="index" @click="thisLabel(items)">
         #{{items}}</li>
     </ul>
     <!-- 还需要获取li中的value显示绑定lLabel -->
@@ -78,14 +78,12 @@ export default {
       this.lLabel='';
     }
     // 处理完毕，发起数据库请求
-    postList(listModel).then((result) => {
-      console.log(listModel);
+    postList(listModel,'/api/task').then((result) => {
       renderList();
       //这个之后还可以优化，看可不可以做判断
     }).catch((err) => {
       console.log(err);
     });
-    
   },
     lose(){
       this.isShow=!this.isShow;
@@ -94,15 +92,21 @@ export default {
      getLabel(){//使用正则表达式监控用户是否输入标签
       this.hashShow=!this.hashShow;
       if(this.hashShow){
-        console.log('执行了吗');
         got('/api/task/bel').then((res)=>{this.showTag=res.data}).catch((err)=>{console.log(err);})
       }
+      this.$nextTick(function () {
+      this.$refs.labelUl.focus();
+      })
      },
+     thisLabel(items){
+       this.lLabel=items;
+       this.hashShow=!this.hashShow;
+     }
   },
   computed:{
     labelShow(){
       if(!this.lLabel) return this.lLabel;
-      return '#'+this.lLabel+' |';
+      return '#'+this.lLabel;
     }
   }
 }
@@ -120,6 +124,9 @@ export default {
       right: 0px;
       box-shadow: 3px 3px 5px $shadow;;
       z-index: 2;
+      :focus{
+        outline: none;
+      }
       input{
         width: 100px;
       }

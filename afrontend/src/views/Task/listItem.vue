@@ -1,7 +1,7 @@
 <template>
 <div id='item'>
   <!-- 需要的数据，标题title-日期myDate-数量val-小标题tit ,内容在点击后渲染-->
-<div class='title' @click="isShow=!isShow">
+<div class='title' @click="isShow=!isShow" v-show="cate!='label'">
   <i v-if='isShow' class="el-icon-arrow-down"></i><i v-else class="el-icon-arrow-right"></i>
   {{tit}}<span v-show='!isShow'>{{val.length}}</span>
 </div>
@@ -16,7 +16,7 @@
      <span :class="{check:items.isFi}">{{items.con}}</span>
      <span class='showDate' v-show="items.ldate!=null">{{items.ldate|formatter}}</span>
       <!-- 删除 -->
-     <span  class='tail' @click="del(items.id,cate)">
+     <span  style='cursor:pointer' class='tail' @click="del(items.id,cate)">
         <svg class="icon" aria-hidden="true"><use xlink:href="#icon-huishouzhan"></use></svg>
      </span>
     </div>
@@ -39,13 +39,16 @@ export default {
   props:['tit','val','cate'],
   methods:{
     del(a,cate){
-      got('/api/task',{del:a}).then((res) => {
-        got('/api/task',{items:cate}).then((result) => {
+      if(cate=='label'){ return renderList();}
+      got('/api/task',{del:a}).then((res) => {//链式调用?
+        got('/api/task',{items:cate})
+        .then((result) => {
         const data=result.data;
         if(data.length==0) return;
         this.$store.dispatch({type:"aPlus",data,ele:cate});
-        }).catch((err) => {console.log(err);});
-      }).catch((err) => {console.log(err);});
+        })
+      })
+      .catch((err) => {console.log(err);});
     },
     update(id,isFi){
       isFi=!isFi;

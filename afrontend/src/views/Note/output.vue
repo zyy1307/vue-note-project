@@ -36,16 +36,14 @@ export default {
 <style lang='scss' scoped>
 #output {
   width: 300px;
+  display: inline-block;
   border-radius: 8px;
   padding:10px 15px; 
   box-sizing: border-box;
-  float: left;
   border: none;
   color: $fontcolor;
   background: #FFF7D1;
-  // margin-top:2px;
-  // margin-right:2px;
-  margin: 2px;
+  margin: 3px auto;
   position: relative;
   &:hover{
     box-shadow: 3px 3px 5px $shadow;
@@ -53,6 +51,7 @@ export default {
   .text{
     width: 100%;
     color:$fontcolor;
+    white-space:pre-wrap; 
   }
   .delete{
     position: absolute;

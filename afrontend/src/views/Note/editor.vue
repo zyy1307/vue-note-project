@@ -38,14 +38,14 @@ export default {
 <style lang='scss' scoped>
 .editor {
   width: 300px;
+  display:inline-block;
   border: 2px solid #E8E8E8;
   border-radius: 8px;
   position: relative;
   background: #FFF;
   padding:10px 15px; 
+  margin: 0 auto;
   box-sizing: border-box;
-  float: left;
-  margin-left: 10px;
   .text{
     width: 100%;
     color:$fontcolor;

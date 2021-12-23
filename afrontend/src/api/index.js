@@ -57,11 +57,11 @@ export function renderList() {
     })
 }
 
-export function postList(data) {
+export function postList(data, url) {
     // 转换成json传输数据
     data = JSON.stringify(data)
     return request({
-        url: '/api/task',
+        url,
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

@@ -1,7 +1,6 @@
 <template>
 <div id='nav'>
    <p class='typing'>勿在浮沙筑高台</p>
-   <input type="text">
 </div>
 </template>
 

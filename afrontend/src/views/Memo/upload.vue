@@ -12,7 +12,7 @@
      name="file" accept= ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" multiple enctype="multipart/form-data" @change="showFile($event)">
     <!-- change事件监听表单 -->
     </div>
-     <div class='dropZone' @drop="dropHandler($event);" @dragover="dragOverHandler($event)">请拖拽文件到这里上传(max:1)</div>
+     <div class='dropZone' @drop="dropHandler($event);" @dragover="dragOverHandler($event)">请拖拽文件到这里上传(最多同时上传一个文件)</div>
   <div class="preview">
    <p>{{rawHtml}}</p>
   </div>
@@ -39,7 +39,7 @@ export default {
       // If dropped items aren't files, reject them
         const file = e.dataTransfer.items[0].getAsFile();
         console.log(file);
-        this.fileList.push(file);
+        this.fileList.unshift(file);
         this.rawHtml=this.fileList[0].name;
     },
     dragOverHandler(e){
@@ -55,7 +55,11 @@ export default {
           // "Content-Type": "multipart/form-data"
           "Content-Type": "false"
         };
-      handleUp(formData,headers).then((res)=>{console.log(res);})
+      handleUp(formData,headers).then((res)=>{console.log(res);
+      this.fileList='';
+      alert('上传成功');
+      this.rawHtml='No files currently selected for upload';
+      })
       .catch((err)=>{console.log(err);})
       }
     ,
@@ -63,7 +67,7 @@ export default {
       // 清空原显示内容并显示上传文件名
       const rawFiles = Array.from(e.target.files);
       rawFiles.forEach ((ele)=>{
-        this.fileList.push(ele);
+        this.fileList.unshift(ele);
       })
       this.rawHtml=this.fileList[0].name;
     },
@@ -80,7 +84,7 @@ width: 20px;
 .dropZone{
   border: 2px dashed gray;
   text-align: center;
-  width:  200px;
+  width:  500px;
   $height: 100px;
   line-height: $height;
   margin-left:10px;
@@ -88,16 +92,17 @@ width: 20px;
 }
 .upload-demo{
 position: absolute;
+left: 50%;
 top: 50%; 
-transform: translateY(-50%);
-width: 400px;
-margin-left: 50px;
+transform: translate(-50%,-50%);
 }
 .up{
   height:60px;
 }
 .row{
   position:absolute;
+  left: 50%;
+  transform: translateX(-50%);
 // 公共
 .send {
   @include mainbtn();

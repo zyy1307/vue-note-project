@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
                 res.send('删除成功')
             })
         } else {
-            const sqlStr = 'select * from memo where know=0 limit 6 '
+            const sqlStr = 'select * from memo where know=0'
             db.db.query(sqlStr, (err, results) => {
                 if (err) return console.log(err.message)
                 res.send(results)
